@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WordPress Development Course - Checklist</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #7c3aed;
+            --success-color: #10b981;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            color: var(--text-primary);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header .instructor {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            margin-bottom: 0.5rem;
+        }
+
+        header .discord-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        header .discord-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        .progress-container {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+            margin-bottom: 2rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .progress-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .progress-percentage {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: var(--border-color);
+            border-radius: 50px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50px;
+            transition: width 0.6s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,255,255,0.3),
+                transparent
+            );
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .class-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            border-left: 5px solid var(--border-color);
+        }
+
+        .class-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .class-card.completed {
+            border-left-color: var(--success-color);
+            background: linear-gradient(to right, #f0fdf4, #ffffff);
+        }
+
+        .class-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .checkbox-wrapper {
+            position: relative;
+            width: 32px;
+            height: 32px;
+        }
+
+        .checkbox-wrapper input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 32px;
+            height: 32px;
+            background: var(--border-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-wrapper input[type="checkbox"]:checked ~ .checkmark {
+            background: var(--success-color);
+        }
+
+        .checkmark i {
+            color: white;
+            font-size: 0.9rem;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-wrapper input[type="checkbox"]:checked ~ .checkmark i {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .class-number {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            background: #eff6ff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        .class-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            flex: 1;
+        }
+
+        .class-card.completed .class-title {
+            color: var(--success-color);
+        }
+
+        .topics-list {
+            list-style: none;
+            padding-left: 3rem;
+        }
+
+        .topic-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+
+        .topic-item:last-child {
+            border-bottom: none;
+        }
+
+        .topic-item:hover {
+            background: #f8fafc;
+            margin: 0 -1rem;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            border-radius: 8px;
+        }
+
+        .topic-checkbox {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .topic-checkbox input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .topic-checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .topic-checkbox input[type="checkbox"]:checked ~ .topic-checkmark {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .topic-checkmark i {
+            color: white;
+            font-size: 0.75rem;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s ease;
+        }
+
+        .topic-checkbox input[type="checkbox"]:checked ~ .topic-checkmark i {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .topic-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .topic-checkbox input[type="checkbox"]:checked ~ .topic-text {
+            color: var(--success-color);
+            text-decoration: line-through;
+            text-decoration-color: var(--success-color);
+        }
+
+        .reset-btn {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 2rem auto;
+            padding: 1rem 2rem;
+            background: white;
+            color: var(--text-primary);
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+            background: #f1f5f9;
+        }
+
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--success-color);
+            animation: confetti-fall 3s ease-out forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .class-card {
+                padding: 1.25rem;
+            }
+            
+            .topics-list {
+                padding-left: 2rem;
+            }
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="celebration" id="celebration"></div>
+    
+    <div class="container">
+        <header>
+            <h1><i class="fab fa-wordpress"></i> WordPress Development</h1>
+            <p class="instructor">Instructor: MD. Ziaul Hasan</p>
+            <p style="margin-bottom: 1rem; opacity: 0.9;">Complete 10-Week Course Checklist</p>
+            <a href="https://discord.gg/mZqCurnvx" target="_blank" class="discord-link">
+                <i class="fab fa-discord"></i>
+                Join Discord Server
+            </a>
+        </header>
+
+        <div class="progress-container">
+            <div class="progress-header">
+                <span class="progress-title">Course Progress</span>
+                <span class="progress-percentage" id="progressPercent">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+        </div>
+
+        <div id="classList">
+            <!-- Class 1 -->
+            <div class="class-card" data-class="1">
+                <div class="class-header">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="class1" onchange="toggleClass(1)">
+                        <div class="checkmark"><i class="fas fa-check"></i></div>
+                    </div>
+                    <span class="class-number">CLASS 01</span>
+                    <h2 class="class-title">Basic HTML <span class="badge"><i class="fas fa-code"></i> Foundation</span></h2>
+                </div>
+                <ul class="topics-list">
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class1-topic1" onchange="updateClassProgress(1)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Understanding HTML & the DOM structure</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class1-topic2" onchange="updateClassProgress(1)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Basic HTML structure (html, head, body tags)</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class1-topic3" onchange="updateClassProgress(1)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Text formatting (headings, paragraphs, lists)</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class1-topic4" onchange="updateClassProgress(1)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Links and images (anchor tags, img tags)</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class1-topic5" onchange="updateClassProgress(1)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Semantic HTML (div, span, header, footer, section)</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Class 2 -->
+            <div class="class-card" data-class="2">
+                <div class="class-header">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="class2" onchange="toggleClass(2)">
+                        <div class="checkmark"><i class="fas fa-check"></i></div>
+                    </div>
+                    <span class="class-number">CLASS 02</span>
+                    <h2 class="class-title">Basic CSS <span class="badge"><i class="fas fa-paint-brush"></i> Styling</span></h2>
+                </div>
+                <ul class="topics-list">
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class2-topic1" onchange="updateClassProgress(2)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">CSS fundamentals and syntax</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class2-topic2" onchange="updateClassProgress(2)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Selectors (element, class, ID)</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class2-topic3" onchange="updateClassProgress(2)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Typography and colors</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class2-topic4" onchange="updateClassProgress(2)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">The Box Model (margin, padding, border)</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class2-topic5" onchange="updateClassProgress(2)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Basic layouts with Flexbox</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Class 3 -->
+            <div class="class-card" data-class="3">
+                <div class="class-header">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="class3" onchange="toggleClass(3)">
+                        <div class="checkmark"><i class="fas fa-check"></i></div>
+                    </div>
+                    <span class="class-number">CLASS 03</span>
+                    <h2 class="class-title">WordPress Setup & Dashboard</h2>
+                </div>
+                <ul class="topics-list">
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class3-topic1" onchange="updateClassProgress(3)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Introduction to CMS and WordPress</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class3-topic2" onchange="updateClassProgress(3)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Hosting, domains, and cPanel basics</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class3-topic3" onchange="updateClassProgress(3)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Installing WordPress (Auto-installer vs Manual)</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class3-topic4" onchange="updateClassProgress(3)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">WordPress Dashboard tour</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class3-topic5" onchange="updateClassProgress(3)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Essential settings (Permalinks, Site Title)</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Class 4 -->
+            <div class="class-card" data-class="4">
+                <div class="class-header">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="class4" onchange="toggleClass(4)">
+                        <div class="checkmark"><i class="fas fa-check"></i></div>
+                    </div>
+                    <span class="class-number">CLASS 04</span>
+                    <h2 class="class-title">Content Management</h2>
+                </div>
+                <ul class="topics-list">
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class4-topic1" onchange="updateClassProgress(4)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Posts vs Pages - when to use which</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class4-topic2" onchange="updateClassProgress(4)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Gutenberg Block Editor</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class4-topic3" onchange="updateClassProgress(4)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Categories and Tags</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class4-topic4" onchange="updateClassProgress(4)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Media Library management</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class4-topic5" onchange="updateClassProgress(4)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">User roles and permissions</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Class 5 -->
+            <div class="class-card" data-class="5">
+                <div class="class-header">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="class5" onchange="toggleClass(5)">
+                        <div class="checkmark"><i class="fas fa-check"></i></div>
+                    </div>
+                    <span class="class-number">CLASS 05</span>
+                    <h2 class="class-title">Themes & Customization</h2>
+                </div>
+                <ul class="topics-list">
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class5-topic1" onchange="updateClassProgress(5)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Finding and installing themes</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class5-topic2" onchange="updateClassProgress(5)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Popular free themes (Astra, GeneratePress)</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class5-topic3" onchange="updateClassProgress(5)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">WordPress Customizer</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class5-topic4" onchange="updateClassProgress(5)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Creating navigation menus</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class5-topic5" onchange="updateClassProgress(5)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Widgets and sidebars</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Class 6 -->
+            <div class="class-card" data-class="6">
+                <div class="class-header">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="class6" onchange="toggleClass(6)">
+                        <div class="checkmark"><i class="fas fa-check"></i></div>
+                    </div>
+                    <span class="class-number">CLASS 06</span>
+                    <h2 class="class-title">Page Builders (Elementor)</h2>
+                </div>
+                <ul class="topics-list">
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class6-topic1" onchange="updateClassProgress(6)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Introduction to page builders</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class6-topic2" onchange="updateClassProgress(6)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Elementor interface and sections</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class6-topic3" onchange="updateClassProgress(6)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Building pages with widgets</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class6-topic4" onchange="updateClassProgress(6)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Responsive design (Mobile/Tablet views)</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class6-topic5" onchange="updateClassProgress(6)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Creating professional Homepage & About pages</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Class 7 -->
+            <div class="class-card" data-class="7">
+                <div class="class-header">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="class7" onchange="toggleClass(7)">
+                        <div class="checkmark"><i class="fas fa-check"></i></div>
+                    </div>
+                    <span class="class-number">CLASS 07</span>
+                    <h2 class="class-title">Essential Plugins</h2>
+                </div>
+                <ul class="topics-list">
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class7-topic1" onchange="updateClassProgress(7)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Understanding plugins and installation</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class7-topic2" onchange="updateClassProgress(7)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">SEO plugins (RankMath/Yoast)</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class7-topic3" onchange="updateClassProgress(7)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Security plugins (Wordfence)</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class7-topic4" onchange="updateClassProgress(7)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Caching and speed optimization</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class7-topic5" onchange="updateClassProgress(7)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Contact forms (WPForms/Contact Form 7)</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Class 8 -->
+            <div class="class-card" data-class="8">
+                <div class="class-header">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="class8" onchange="toggleClass(8)">
+                        <div class="checkmark"><i class="fas fa-check"></i></div>
+                    </div>
+                    <span class="class-number">CLASS 08</span>
+                    <h2 class="class-title">Custom CSS & Child Themes</h2>
+                </div>
+                <ul class="topics-list">
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class8-topic1" onchange="updateClassProgress(8)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Using Browser Inspector Tool</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class8-topic2" onchange="updateClassProgress(8)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Adding custom CSS in WordPress</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class8-topic3" onchange="updateClassProgress(8)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Understanding Child Themes</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class8-topic4" onchange="updateClassProgress(8)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Why never edit parent theme files</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class8-topic5" onchange="updateClassProgress(8)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Practical CSS customization exercises</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Class 9 -->
+            <div class="class-card" data-class="9">
+                <div class="class-header">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="class9" onchange="toggleClass(9)">
+                        <div class="checkmark"><i class="fas fa-check"></i></div>
+                    </div>
+                    <span class="class-number">CLASS 09</span>
+                    <h2 class="class-title">WooCommerce Basics</h2>
+                </div>
+                <ul class="topics-list">
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class9-topic1" onchange="updateClassProgress(9)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Installing and setting up WooCommerce</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class9-topic2" onchange="updateClassProgress(9)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Adding products (Simple & Variable)</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class9-topic3" onchange="updateClassProgress(9)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Payment gateway setup</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class9-topic4" onchange="updateClassProgress(9)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Shipping zones configuration</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class9-topic5" onchange="updateClassProgress(9)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Managing orders and inventory</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Class 10 -->
+            <div class="class-card" data-class="10">
+                <div class="class-header">
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" id="class10" onchange="toggleClass(10)">
+                        <div class="checkmark"><i class="fas fa-check"></i></div>
+                    </div>
+                    <span class="class-number">CLASS 10</span>
+                    <h2 class="class-title">Launch & Freelancing</h2>
+                </div>
+                <ul class="topics-list">
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class10-topic1" onchange="updateClassProgress(10)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Pre-launch checklist</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class10-topic2" onchange="updateClassProgress(10)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Site migration (Localhost to Live)</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class10-topic3" onchange="updateClassProgress(10)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">WordPress maintenance and updates</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class10-topic4" onchange="updateClassProgress(10)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Freelancing basics and pricing</span>
+                    </li>
+                    <li class="topic-item">
+                        <div class="topic-checkbox">
+                            <input type="checkbox" id="class10-topic5" onchange="updateClassProgress(10)">
+                            <div class="topic-checkmark"><i class="fas fa-check"></i></div>
+                        </div>
+                        <span class="topic-text">Final project showcase</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <button class="reset-btn" onclick="resetProgress()">
+            <i class="fas fa-redo"></i> Reset Progress
+        </button>
+    </div>
+
+    <script>
+        // Load saved progress on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+            updateProgress();
+        });
+
+        function toggleClass(classNumber) {
+            const checkbox = document.getElementById(`class${classNumber}`);
+            const card = document.querySelector(`[data-class="${classNumber}"]`);
+            const topicCheckboxes = document.querySelectorAll(`[id^="class${classNumber}-topic"]`);
+            
+            // Check or uncheck all topic checkboxes
+            topicCheckboxes.forEach(topicCb => {
+                topicCb.checked = checkbox.checked;
+            });
+            
+            if (checkbox.checked) {
+                card.classList.add('completed');
+                
+                // Check if all classes are completed
+                if (checkAllCompleted()) {
+                    celebrate();
+                }
+            } else {
+                card.classList.remove('completed');
+            }
+            
+            saveProgress();
+            updateProgress();
+        }
+
+        function updateClassProgress(classNumber) {
+            const topicCheckboxes = document.querySelectorAll(`[id^="class${classNumber}-topic"]`);
+            const allChecked = Array.from(topicCheckboxes).every(cb => cb.checked);
+            const classCheckbox = document.getElementById(`class${classNumber}`);
+            const card = document.querySelector(`[data-class="${classNumber}"]`);
+            
+            classCheckbox.checked = allChecked;
+            
+            if (allChecked) {
+                card.classList.add('completed');
+                
+                // Check if all classes are completed
+                if (checkAllCompleted()) {
+                    celebrate();
+                }
+            } else {
+                card.classList.remove('completed');
+            }
+            
+            saveProgress();
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const allCheckboxes = document.querySelectorAll('.topic-checkbox input[type="checkbox"]');
+            const checkedCheckboxes = document.querySelectorAll('.topic-checkbox input[type="checkbox"]:checked');
+            const percentage = Math.round((checkedCheckboxes.length / allCheckboxes.length) * 100);
+            
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressPercent').textContent = percentage + '%';
+        }
+
+        function checkAllCompleted() {
+            const allCheckboxes = document.querySelectorAll('.topic-checkbox input[type="checkbox"]');
+            return Array.from(allCheckboxes).every(cb => cb.checked);
+        }
+
+        function celebrate() {
+            const celebration = document.getElementById('celebration');
+            celebration.style.display = 'block';
+            
+            // Create confetti
+            const colors = ['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b', '#ef4444'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    celebration.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 4000);
+                }, i * 50);
+            }
+            
+            setTimeout(() => {
+                celebration.style.display = 'none';
+            }, 4000);
+        }
+
+        function saveProgress() {
+            const allCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+            const progress = {};
+            allCheckboxes.forEach(cb => {
+                progress[cb.id] = cb.checked;
+            });
+            localStorage.setItem('wordpressCourseProgress', JSON.stringify(progress));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('wordpressCourseProgress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                Object.keys(progress).forEach(id => {
+                    const checkbox = document.getElementById(id);
+                    if (checkbox) {
+                        checkbox.checked = progress[id];
+                        if (id.startsWith('class') && !id.includes('topic')) {
+                            const classNumber = id.replace('class', '');
+                            const card = document.querySelector(`[data-class="${classNumber}"]`);
+                            if (progress[id]) {
+                                card.classList.add('completed');
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress?')) {
+                const allCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+                const cards = document.querySelectorAll('.class-card');
+                
+                allCheckboxes.forEach(cb => cb.checked = false);
+                cards.forEach(card => card.classList.remove('completed'));
+                
+                localStorage.removeItem('wordpressCourseProgress');
+                updateProgress();
+            }
+        }
+    </script>
+</body>
+</html>
